@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def step(net, t, dynamic, sim_time = 1000):
+def step(net, t, dynamic, sim_time=1000):
     """
         Updates the visualizer in each time step.
         Args:
@@ -26,12 +26,11 @@ def step(net, t, dynamic, sim_time = 1000):
             n2 = net.nodes[int(pkt[1])]
             pkt_type = pkt[2]
             cv2.line(img2, (n1.x, n1.y), (n2.x, n2.y), pkt_colors[pkt_type], 10)
-            cv2.putText(img2, "{} :{}".format(pkt_type,pkt[3]), (int((n1.x+n2.x)/2), int((n1.y+n2.y)/2)), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 0), 2)
+            cv2.putText(img2, "{} :{}".format(pkt_type, pkt[3]), (int((n1.x + n2.x) / 2), int((n1.y + n2.y) / 2)),
+                        cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 0), 2)
     cv2.imshow('vis', img)
     cv2.waitKey(sim_time)
     cv2.imshow('vis', img2)
     cv2.waitKey(sim_time)
     cv2.imshow('vis', img)
     cv2.waitKey(sim_time)
-
-

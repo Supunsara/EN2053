@@ -87,7 +87,7 @@ class Graph:
             Updates the network in each time step
         """
         try:
-            for dp in buffer[t]:
+            for dp in self.buffer[t]:
                 self.nodes[dp[1]].queue_in.append(dp[0])
         except:
             pass
@@ -104,8 +104,8 @@ class Graph:
                         n.adjacent_nodes[adj].queue_in.append(copy.copy(pkt))
                         transmissions.append((n.id, adj, pkt.type,(pkt.source,pkt.target)))
                 else:
-                    n.adjacent_nodes[pkt.source_route[pkt.cur_hop]].queue_in.append(copy.copy(pkt))
-                    transmissions.append((n.id, pkt.source_route[pkt.cur_hop], pkt.type,(pkt.source,pkt.target)))
+                    n.adjacent_nodes[pkt.source_route[pkt.next_hop]].queue_in.append(copy.copy(pkt))
+                    transmissions.append((n.id, pkt.source_route[pkt.next_hop], pkt.type,(pkt.source,pkt.target)))
         for n in self.nodes:
             del_list=[]
             for k in n.routing_cache.keys():
