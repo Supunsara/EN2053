@@ -101,10 +101,10 @@ class Graph:
                 pkt = n.queue_out.pop(0)
                 if pkt.type == PKT_TYPE.RREQ:
                     for adj in n.adjacent_nodes.keys():
-                        n.adjacent_nodes[adj].queue_in.append(copy.copy(pkt))
+                        n.adjacent_nodes[adj].queue_in.append(copy.deepcopy(pkt))
                         transmissions.append((n.id, adj, pkt.type,(pkt.source,pkt.target)))
                 else:
-                    n.adjacent_nodes[pkt.source_route[pkt.next_hop]].queue_in.append(copy.copy(pkt))
+                    n.adjacent_nodes[pkt.source_route[pkt.next_hop]].queue_in.append(copy.deepcopy(pkt))
                     transmissions.append((n.id, pkt.source_route[pkt.next_hop], pkt.type,(pkt.source,pkt.target)))
         for n in self.nodes:
             del_list=[]
