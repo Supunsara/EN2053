@@ -20,6 +20,6 @@ manet.add_node(780, 500, tx_range)
 #
 manet.send(0, 2, 1, 'Test')  # send a data packet at time step 1 from node 0 to 2
 #manet.send(4, 0, 1, 'Test')
-for t in range(20):  # Simulate for 20 time steps # Do not increase the timesteps beyond 30
+for t in range(20):  # Simulate for 20 time steps # Do not increase the timesteps beyond 30. If you want to increase set self.expire_time in node.py to a high value
     step(manet, t, dynamic)
 cv2.destroyAllWindows()
