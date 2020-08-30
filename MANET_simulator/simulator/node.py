@@ -90,7 +90,42 @@ class Node:
         pkt.source_route = self.routing_cache[pkt.target][0]
         self.routing_cache[pkt.target][1] = self.expire_time
 
+    def check_in_buffer(self, pkt):
+        if pkt.id in self.buffer.keys():
+            return True
+        return False
 
+    def add_to_buffer(self, pkt):
+        self.buffer[pkt.id] = pkt
+
+    def retrieve_from_buffer(self, pkt):
+        DATA_pkt = self.buffer[pkt.id]
+        del self.buffer[pkt.id]
+        DATA_pkt.source_route = pkt.source_route
+        DATA_pkt.next_hop += 1
+        return DATA_pkt
+
+    def generate_RREP(self, pkt):
+        assert pkt.type == PKT_TYPE.RREQ, "RREP can be generated only for RREQ pkts. pkt recieved {}".format(pkt.type)
+        pkt.type = PKT_TYPE.RREP
+        pkt.source_route.append(self.id)
+        return pkt
+
+    def generate_RREQ(self, pkt):
+        RREQ_pkt = Packet(pkt.id, PKT_TYPE.RREQ)
+        RREQ_pkt.source = pkt.source
+        RREQ_pkt.target = pkt.target
+        RREQ_pkt.source_route.append(self.id)
+        return RREQ_pkt
+
+    def add_to_queue_out(self, pkt):
+        if pkt.type == PKT_TYPE.RREQ and pkt.source != self.id:
+            pkt.next_hop += 1
+        elif pkt.type == PKT_TYPE.DPKT and pkt.source != self.id:
+            pkt.next_hop += 1
+        elif pkt.type == PKT_TYPE.RREP and pkt.target != self.id:
+            pkt.next_hop -= 1
+        self.queue_out.append(pkt)
 
     def route(self, pkt):
         """
@@ -103,5 +138,4 @@ class Node:
             Take note next hop should give the index of the next node it must be forwarded in the source route. Make sure you update
             the pkt.next_hop before appending to queue_out.
         """
-        
         pass

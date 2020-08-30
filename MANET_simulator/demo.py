@@ -15,8 +15,11 @@ dynamic = False  # True to use mobile model
 manet.add_node(500, 550, tx_range)  # "Add node 0 at 500,500"
 manet.add_node(690, 600, tx_range)  # "Add node 1 at 690,600"
 manet.add_node(780, 700, tx_range)  # "Add node 2 at 780,700"
+manet.add_node(780, 600, tx_range)
+manet.add_node(780, 500, tx_range)
 #
-manet.send(0, 2, 4, 'Test')  # send a data packet at time step 5 from node 0 to 2
-for t in range(10):  # Simulate for 10 time steps
+manet.send(0, 2, 1, 'Test')  # send a data packet at time step 1 from node 0 to 2
+#manet.send(4, 0, 1, 'Test')
+for t in range(20):  # Simulate for 20 time steps # Do not increase the timesteps beyond 30
     step(manet, t, dynamic)
 cv2.destroyAllWindows()
